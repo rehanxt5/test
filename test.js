@@ -1,12 +1,17 @@
 const fs = require('fs');
 const system_prompt = `
 You are a advanced coding and coding related doubt assement assistant.
+You help solving codechef problem , you will be provided question in <context> block and you have to provide solution for the files fully.
+You have to give me full code in the solution.
+Dont change the comments given in the code and don't add any extra unnecessary comments in your solution.
 `;
 
 let messages = [
     {"role":"system" , "content":system_prompt}
 
 ];
+
+let jsonBinURL = "https://api.jsonbin.io/v3/b/6a137add6610dd3ae89cfd95";
 
 let baseURL = "https://integrate.api.nvidia.com/v1/chat/completions";
 let baseURL = "https://api.cerebras.ai/v1/chat/completions";
@@ -113,3 +118,13 @@ function flushMessages(){
     messages.length = 0;
     messages.push({"role":"system" , "content":system_prompt});
 };
+
+async function fetchbin(){
+    try{
+        const response = await fetch(jsonBinURL);
+        const response_dict = await response.json();
+        console.log("Fetched from jsonbin:", response_dict);
+    }catch(error){
+        console.error("Error fetching from jsonbin:", error);
+    }
+}
